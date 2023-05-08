@@ -1,0 +1,2 @@
+Correct Solution, Online GDB C++ Compiler
+Time: 491329 microseconds ~= 1/2 second (Monday, May 8th 2023)
