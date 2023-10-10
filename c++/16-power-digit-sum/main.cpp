@@ -10,6 +10,9 @@
  * 2^15 = 32,768
  * 3+2+7+6+8 => 26
  *
+ * Solution:
+ * (Ongoing, needing to use GNU's gmplib for greater precision)
+ *
  * Notes:
  * GNU Multiprecision Arithmetic Library
  * https://gmplib.org/
@@ -17,7 +20,7 @@
  * Replit:
  *   Menu - cmd+j
  *   Code folding - Toggle all folds from menu option
- * 
+ *
  * Replit seems unable to add tarball libraries (Boost, GMP)
  */
 
