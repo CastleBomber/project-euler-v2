@@ -1,0 +1,130 @@
+/**
+ * Author: Richie CastleBomber
+ * Date: August 29th, 2023
+ *
+ * Project Euler: #16 - Power Digit Sum
+ *
+ * What is the sum of digits of 2^1000?
+ *
+ * Example:
+ * 2^15 = 32,768
+ * 3+2+7+6+8 => 26
+ *
+ * Replit:
+ *   Menu - cmd+j
+ *   Code folding - Toggle all folds from menu option
+ */
+
+#include "powerDigitSum.h"
+
+int main() {
+  string basePower = "2";
+  string exponent = "3";
+  string binaryString = "";
+
+  // String binarires
+  basePower = convertToBinary(stoi(basePower));
+  binaryString = basePower;
+
+  // Simulate multiplying by 2 by shifting binary string
+  // for (int x = 1; x < stoi(exponent); x++) {
+  //   binaryString = shiftByBaseTwo(binaryString);
+  // }
+
+  // cout << binaryString << endl;
+
+  int r = (pow(2,100));
+  cout << r << endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#include "powerDigitSum.h"
+/**
+ * Early on, we convert the starting numbers to binary
+ * and keep them that way throughout the calculations
+ *
+ * @param number - base power
+ * @return binary - binary representation of given number
+ */
+string convertToBinary(unsigned int number) {
+  string result = "";
+
+  while (number != 0) {
+    result = (number % 2 == 0 ? "0" : "1") + result;
+    number = number / 2;
+  }
+
+  return result;
+}
+
+/**
+ * Shifts over original binary string to mimic
+ * multiplying by 2
+ * Pass by reference
+ *
+ * @param &number - address of original binary string
+ * @return result - number with an appended 0
+ */
+string shiftByBaseTwo(string &number) {
+  string result = "";
+    
+  result = number;
+
+  result.push_back('0');
+
+  return result;
+}
+
+/**
+ * Adds up all the digits from a given binary string
+ *
+ * @param number - binary string
+ * @return result - sum of all the digits
+ */
+string sumOfDigits(string number) {
+  string result = 0;
+
+  // for()
+  // {
+
+  // }
+
+  return result;
+}
+
+
+
+
+
+
+
+
+#ifndef MAIN_H_
+#define MAIN_H_
+
+#include <bitset>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <string>
+#include <vector>
+//#include <boost/multiprecision/cpp_int.hpp>
+
+//using namespace boost::multiprecision;
+using namespace std;
+
+string convertToBinary(unsigned int n);
+string shiftByBaseTwo(string &number);
+string sumOfDigits(string number);
+
+#endif

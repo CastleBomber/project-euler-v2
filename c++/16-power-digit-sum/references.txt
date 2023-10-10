@@ -1,0 +1,3 @@
+Acknowledgments:
+Logman's Conversion to Binary Code
+https://stackoverflow.com/questions/22746429/c-decimal-to-binary-converting
