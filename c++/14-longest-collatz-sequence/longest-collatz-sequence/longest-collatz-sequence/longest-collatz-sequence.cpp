@@ -1,7 +1,6 @@
 ﻿﻿/**
  * Author: CBOMBS
  * Date: December 26th, 2022
- * Project Euler: #14 Longest Collatz Sequence
  *
  * The following iterative sequence is defined for the set of positive integers:
  *
@@ -26,9 +25,20 @@
  * References:
  * https://www.enjoyalgorithms.com/blog/top-down-memoization-vs-bottom-up-tabulation
  *
+ * Acknowledgments:
+ * Haskell's Solution from Project Euler
+ *
  * Shortcuts:
  *  VS Code:
  * 	    c++ VS Code clang-formatter: shift+alt+f
+ *
+ * Notes:
+ *                 bytes    range of values
+ * int	            4	    -2,147,483,648 to 2,147,483,647
+ * unsigned long	4	    0 to 4,294,967,295
+ *
+ * why does 'unsigned long work' but not int?
+ * Perhaps needed a much higher value than predicted (1 million * 10, roughly).
  *
  *  Visual Studio:
  *      code folding: select region, ctrl+m+m
@@ -41,137 +51,53 @@
  */
 
 #include <iostream>
-#include <map>
-#include <future>
+#include <stdio.h>
+#include <chrono>
 
-
-    using namespace std;
-
-int collatzSequence(map<int, int>& table, int startingNumber);
-int checkTabulization(map<int, int>& table, int number);
-int isOdd(int number);
-
-/**
- *  Increases odd numbers and decreases even numbers
- *  with the goal of finishing at 1
- *
- * Mimimum acceptable value is 1. All lower numbers will be returned as an error.
- * For this reason, we set: sequenceCount = 1
- *
- *  returns
- *      sequenceCount - number of terms to reach 1, includes starting number
- */
-int collatzSequence(map<int, int>& table, int startingNumber)
-{
-    int currentNumber = startingNumber; // decrements through sequence until reaches 1
-    int sequenceCount = 1;              // number of terms for given number to reach 1
-    int tableResult = 0;                // return value from check Tabulization
-
-    // Error Check
-    if (startingNumber < 1)
-    {
-        printf("Error: value should not be less than 1\n");
-
-        return 0;
-    }
-
-    // Loops and updates given number until its value is 1
-    while ((currentNumber != 1))
-    {
-        tableResult = checkTabulization(table, currentNumber);
-
-        // Check if number already in the table
-        if (tableResult)
-        {
-            sequenceCount += tableResult;
-            return sequenceCount;
-        }
-
-        if (isOdd(currentNumber))
-        {
-            // Odd number -> increased and becomes even
-            currentNumber = (3 * currentNumber) + 1;
-        }
-        else
-        {
-            // Even number -> decreases and becomes odd || even
-            currentNumber = currentNumber / 2;
-        }
-
-        sequenceCount++;
-    }
-
-    /*for (const auto& x : y) {
-        std::async(std::launch::async(), x);
-    }*/
-
-    table.emplace(startingNumber, sequenceCount); // Add to table
-
-    return sequenceCount;
-}
-
-/**
- * Checks if number is in the table
- *
- * If the given number is not in the table, return 0
- *
- * tabulization - top-down dynamic approach,
- * uses extra memory to store solutions to sub problems
- * avoids recomputation
- *
- * Ex: if the number is in the table:
- * input number = 5, return = 6  (includes itself)
- * 5 → 16 → 8 → 4 → 2 → 1
- *
- * table.emplace() - make them a pair and add to map
- *
- */
-int checkTabulization(map<int, int>& table, int number)
-{
-    int sequenceLength = 0;
-
-    if (auto search = table.find(number); search != table.end())
-    {
-        sequenceLength = search->second;
-    }
-
-    return sequenceLength;
-}
-
-int isOdd(int number)
-{
-    int status = 0;
-
-    if ((number % 2) > 0)
-    {
-        status = 1;
-    }
-
-    return status;
-}
+using namespace std;
+using namespace std::chrono;
 
 int main()
 {
-    map<int, int> table;          // stores each number and its chain count
-    int longestChainProducer = 0; // produces the longest chain in the sequence
-    int longestChainCount = 0;    // stores the highest value of currentChainCount from longestChainProducer
-    int currentTerm = 989999;          // checks for which number gives the largest sequence
-    int maxTerm = 1000000;             // largest number to check
-    int currentChainCount = 0;    // current number's chain count
+    auto start = high_resolution_clock::now();
 
-    while (currentTerm != maxTerm)
+    int longestTermsNumber = 0;  // produces the longest chain in the sequence
+    int longestTermsCount = 0;   // stores the highest value of curTermsCount from longestChainProducer
+    int curTermsCount = 0;       // current number's chain count
+    unsigned long curNumber = 1; // manipulated by Collatz Sequence, inc range of values
+    int maxNumber = 1000000;     // largest number to check
+    int i = 1;                   // outer loop number utilized by curNumber
+
+    for (i = 1; i < maxNumber; i++)
     {
-        currentChainCount = collatzSequence(table, currentTerm);
+        curNumber = i;
+        curTermsCount = 1;
 
-        if (longestChainCount < currentChainCount)
+        while (curNumber != 1)
         {
-            longestChainCount = currentChainCount;
-            longestChainProducer = currentTerm;
-        }
+            curTermsCount++;
 
-        currentTerm++;
+            if (curTermsCount > longestTermsCount)
+            {
+                longestTermsCount = curTermsCount;
+                longestTermsNumber = i;
+            }
+
+            if (curNumber % 2 == 0)
+            {
+                curNumber = curNumber / 2;
+            }
+            else
+            {
+                curNumber = curNumber * 3 + 1;
+            }
+        }
     }
 
-    cout << "The number: " << longestChainProducer
-        << " produces the longest chain with: " << longestChainCount << " terms\n";
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    cout << "The number: " << longestTermsNumber
+         << " produces the longest chain with: " << longestTermsCount << " terms\n"
+         << "Time: " << duration.count() << " microseconds" << endl;
 }
