@@ -22,6 +22,10 @@
  * 3 - returns 8
  * 4 - returns 3
  *
+ * Answer:
+ * The number: 837799 produces the longest chain with: 525 terms
+ * Best time: 491329 microseconds ~ 1/2 second
+ *
  * References:
  * https://www.enjoyalgorithms.com/blog/top-down-memoization-vs-bottom-up-tabulation
  *
@@ -56,6 +60,34 @@
 
 using namespace std;
 using namespace std::chrono;
+
+/**
+ * Checks if number is in the table
+ *
+ * If the given number is not in the table, return 0
+ *
+ * tabulization - top-down dynamic approach,
+ * uses extra memory to store solutions to sub problems
+ * avoids recomputation
+ *
+ * Ex: if the number is in the table:
+ * input number = 5, return = 6  (includes itself)
+ * 5 → 16 → 8 → 4 → 2 → 1
+ *
+ * table.emplace() - make them a pair and add to map
+ *
+ */
+int checkTabulization(map<int, int>& table, int number)
+{
+    int sequenceLength = 0;
+
+    if (auto search = table.find(number); search != table.end())
+    {
+        sequenceLength = search->second;
+    }
+
+    return sequenceLength;
+}
 
 int main()
 {
