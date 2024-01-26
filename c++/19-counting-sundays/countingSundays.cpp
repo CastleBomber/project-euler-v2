@@ -1,4 +1,4 @@
-#include "countingSundays.h" // 4
+#include "countingSundays.h"  // 8b
 
 /**
  * Counts the number of 1st Sundays within each year
@@ -9,19 +9,19 @@
  * @return maxSundays
  */
 int countingSundays(vector<int> start, vector<int> end) {
-  vector<Items> yearsList;
-  int maxSundays = 0;
+    vector<Years> yearsList;
+    int maxSundays = 0;
 
-  // Initialize list: year, LY value, and count of 0
-  yearsList = initialiazeList(start[2], end[2]);
+    // Initialize list: year, LY value, and count of 0
+    yearsList = initialiazeList(start, end);
 
-  // Builds up list with the number of 1st Sundays in each year
-  yearsList = buildList(start, end);
+    // Builds up list with the number of 1st Sundays in each year
+    yearsList = buildList(start, end);
 
-  // Iterate through yearsList to find the greatest count
-  maxSundays = getMaxFromList(yearsList);
+    // Iterate through yearsList to find the greatest count
+    // maxSundays = getMaxFromList(yearsList);
 
-  return maxSundays;
+    return maxSundays;
 }
 
 /**
@@ -31,22 +31,22 @@ int countingSundays(vector<int> start, vector<int> end) {
  *
  * @param start - {M,D,Y} => {1, 1, 1901}
  * @param end - {M,D,Y} => {12, 31, 2000}
- * @return yearsList - <year, leapYear, firstSundays>
+ * @return yearsList - <year, leapYear, startDay, firstSundaysCount>
  */
-vector<Items> initialiazeList(vector<int> start, vector<int> end) {
-  vector<Items> yearsList;
-  int startYear = start[0]; // Start of 20th century: 1901
-  int endYear = end[0];     // End of 20th century: 2000
+vector<Years> initialiazeList(vector<int> start, vector<int> end) {
+    vector<Years> yearsList;
+    int startYear = start[2];  // Start of 20th century: 1901
+    int endYear = end[2];      // End of 20th century: 2000
 
-  for (int curYear = startYear; curYear < endYear; curYear++) {
-    if (checkLeapYear(curYear)) {
-      yearsList.emplace_back(curYear, 1, 0);
-    } else {
-      yearsList.emplace_back(curYear, 0, 0);
+    for (int curYear = startYear; curYear < endYear; curYear++) {
+        if (checkLeapYear(curYear)) {
+            yearsList.emplace_back(curYear, 1, 0, 0);
+        } else {
+            yearsList.emplace_back(curYear, 0, 0, 0);
+        }
     }
-  }
 
-  return yearsList;
+    return yearsList;
 }
 
 /**
@@ -54,18 +54,19 @@ vector<Items> initialiazeList(vector<int> start, vector<int> end) {
  *
  * @param start - {M,D,Y} => {1, 1, 1901}
  * @param end - {M,D,Y} => {12, 31, 2000}
- * @return yearsList
+ * @return yearsList - <year, leapYear, startDay, firstSundaysCount>
  */
-vector<Items> buildList(vector<int> start, vector<int> end) {
-  vector<Items> yearsList;
-  vector<int> daysMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  int startYear = start[2];
-  int endYear = end[2];
+vector<Years> buildList(vector<int> start, vector<int> end) {
+    vector<Years> yearsList;
+    vector<int> daysMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int startYear = start[2];
+    int endYear = end[2];
 
-  // Add number of first Sundays to each item in the year list
-  for (int curYear = startYear; curYear < endYear; curYear++) {
-    yearsList[curYear - startYear].count = getYearsFirstSundaysCount(curYear);
-  }
+    // Add number of first Sundays to each item in the year list
+    for (int curYear = startYear; curYear < endYear; curYear++) {
+        yearsList[curYear - startYear].firstSundaysCount =
+            getYearsFirstSundaysCount(curYear);
+    }
 }
 
 /**
@@ -75,48 +76,104 @@ vector<Items> buildList(vector<int> start, vector<int> end) {
  * @return count - number of first Sundays in given year
  */
 int getYearsFirstSundaysCount(int year) {
-  vector<int> months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  vector<int> monthsLY = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  int count = 0;
-  int start = 0; // Days b/n Sun-Sat
+    vector<int> months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    vector<int> monthsLY = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int count = 0;
+    int start = 0;  // Days b/n Sun-Sat
 
-  start = getFirstDayOfYear(year); // Sun-Sat
+    start = getFirstDayFromYearIn20thCentury(year);  // Sun-Sat
 
-  if (1) {
-    count += 1;
-  }
+    if (1) {
+        count += 1;
+    }
 
-  return count;
+    return count;
 }
 
 /**
+ * Returns the day the year starts on
+ * Representing Sun-Sat as: 0-6
+ * Function is specific to 20th century
  *
- * year - 1901
- * 1901 => 2 (Tuesday)
+ * Formula:
+ * year - 1901 = DIFF
+ * ^LY = DIFF/4
+ * year => 1901s_TUESDAY + DIFF = (2 + 0) = DAY%7 (Week[DAY] is the start of the
+ * year)
+ *
+ * Ex:
+ * 1901 - 1901 = 0
+ * ^LY = 0/4 = 0
+ * 1901 => 1901s_TUESDAY + DIFF + ^LY = (2 + 0 + 0) = 2%7 = 2 (Tuesday is the
+ * start of the 1901)
+ *
  * 1902 - 1901 = 1
- * 1902 => Tuesday + 1 = Wednesday
+ * ^LY = 1/4 = 0
+ * 1902 => 1901s_TUESDAY + DIFF ^LY = (2 + 1 + 0) = 3%7 = 3 (Wednesday is the
+ * start of 1902)
+ *
+ * 1903 - 1901 = 2
+ * ^LY = 2/4 = 0
+ * 1903 => 1901s_TUESDAY + DIFF + ^LY = (2 + 2 + 0) = 4%7 = 4 (Thursday is the
+ * start of 1903)
+ *
+ * 1904 - 1901 = 3 (Leap year! Affects the following year)
+ * ^LY = 3/4 = 0
+ * 1904 => 1901s_TUESDAY + DIFF + ^LY = (2 + 3 + 0) = 5%7 = 5 (Friday is the
+ * start of 1904)
+ *
+ * 1905 - 1901 = 4 + LY (Add a 1 day shift due to past leap year)
+ * ^LY = 4/4 = 1
+ * 1905 => 1901s_TUESDAY + DIFF + ^LY = (2 + 4 + 1) = 7%7 = 0 (Sunday is the
+ * start of 1905)
+ *
+ * 1906 - 1901 = 5
+ * ^LY = 5/4 = 1
+ * 1906 => 1901s_TUESDAY + DIFF + ^LY = (2 + 5 + 1) = 8%7 = 1 (Monday is the
+ * start of 1906)
+ *
+ * 1909 - 1901 = 8
+ * ^LY = 8/4 = 2
+ * 1909 => 1901s_TUESDAY + DIFF + ^LY = (2 + 8 + 2) = 12%7 = 5 (Friday is the
+ * start of 1909)
+ *
+ * 1999 - 1901 = 98
+ * ^LY = 98/4 = 24
+ * 1999 => 1901s_TUESDAY + DIFF + ^LY =  (2 + 98 + 24) = 124%7 = 5 (Friday is
+ * the start of 1999)
+ *
+ * 2000 - 1901 = 99
+ * ^LY = 99/4 = 24
+ * 2000 => 1901s_TUESDAY + DIFF + ^LY =  (2 + 99 + 24) = 125%7 = 6 (Saturday is
+ * the start of 2000)
  *
  * @param year - year within the 20th century
  * @return day - day of the week (Sun-Sat)
  */
-int getFirstDayOfYear(int year) {
-  vector<int> week = {0, 1, 2, 3, 4, 5, 6}; // Sun,M,T,W,Th,F,Sa
-  int startYear20thCentury = 1901;
-  int startDay20thCentury = 2; // Tuesday
-  int addDay = 0;
+int getFirstDayFromYearIn20thCentury(int year) {
+    vector<int> week = {0, 1, 2, 3, 4, 5, 6};  // Sun,M,T,W,Th,F,Sa
+    int startYear20thCentury = 1901;
+    int startDay20thCentury = 2;  // Tuesday
+    int diff = 0;
+    int day = 0;
 
-  addDay = year - startYear20thCentury; // Ex: 1906-1901 = 5
-  //addDay + (addDay/3)
+    // Formula:
+    // year - 1901 = DIFF
+    // ^LY = DIFF/4
+    // year => 1901s_TUESDAY + DIFF = (2 + 0) = DAY%7 (Week[DAY] is the start of
+    // the year)
 
-  for () {
-    if () {
-      //366%7=1
-    } else {
-      //365%7=2
+    diff = year - startYear20thCentury;
+
+    for (int x = 0; x < 2; x++) {
+        if (1) {
+            // 366%7=1
+        } else {
+            // 365%7=2
+        }
     }
-  }
 
-  return day;
+    return day;
 }
 
 /**
@@ -126,14 +183,14 @@ int getFirstDayOfYear(int year) {
  * @return leapYear - true if leap year, false if not
  */
 int checkLeapYear(int year) {
-  int leapYear = 0;
+    int leapYear = 0;
 
-  if (((year % 4 == 0) && (year % 100 != 0)) ||
-      ((year % 100 == 0) && (year % 400 == 0))) {
-    leapYear = 1;
-  }
+    if (((year % 4 == 0) && (year % 100 != 0)) ||
+        ((year % 100 == 0) && (year % 400 == 0))) {
+        leapYear = 1;
+    }
 
-  return leapYear;
+    return leapYear;
 }
 
-int getMaxFromList(vector<Items> list) { return 4; }
+int getMaxFromList(vector<Years> list) { return 1; }

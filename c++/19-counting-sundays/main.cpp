@@ -77,13 +77,13 @@
 #include "countingSundays.h"
 
 int main() {
-  vector<int> startDate = {1, 1, 1901};
-  vector<int> endDate = {12, 31, 2000};
-  int answer = 0;
+    vector<int> startDate = {1, 1, 1901};
+    vector<int> endDate = {12, 31, 2000};
+    int answer = 0;
 
-  answer = countingSundays(startDate, endDate);
+    answer = countingSundays(startDate, endDate);
 
-  cout << "The answer is: " << answer << endl;
+    cout << "The answer is: " << answer << endl;
 
-  return 0;
+    return 0;
 }
