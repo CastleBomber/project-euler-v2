@@ -13,21 +13,22 @@
 using namespace std;
 
 struct Years {
-  int year, leapYear, startDay, firstSundaysCount;
+    int year, leapYear, startDay, firstSundaysCount;
 
-  Years(int y, int ly, int sd, int fsc) { // Constructor with parameters
-    year = y;
-    leapYear = ly;
-    startDay = sd;
-    firstSundaysCount = fsc;
-  }
+    // Constructor with parameters
+    Years(int _year, int _leapYear, int _startDay, int _firstSundaysCount) {
+        year = _year;
+        leapYear = _leapYear;
+        startDay = _startDay;
+        firstSundaysCount = _firstSundaysCount;
+    }
 };
 
 int countingSundays(vector<int> start, vector<int> end);
 vector<Years> initialiazeList(vector<int> start, vector<int> end);
-vector<Years> buildList(vector<int> start, vector<int> end);
-int getYearsFirstSundaysCount(int year);
-int getFirstDayFromYearIn20thCentury(int year);
+vector<Years> setStartDayForYears(vector<Years> _yearsList);
+vector<Years> setFirstSundaysCountForYears(vector<int> start, vector<int> end);
+int getFirstSundaysCount(int year);
 int checkLeapYear(int year);
 int getMaxFromList(vector<Years> list);
 

@@ -72,6 +72,9 @@
  *   Menu - cmd+j
  *   Code folding - Toggle all folds from menu option
  *
+ * Debugger:
+ *    Breakpoints and for loops require two taps to proceed
+ *
  */
 
 #include "countingSundays.h"
