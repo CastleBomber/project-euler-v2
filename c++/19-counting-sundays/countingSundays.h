@@ -25,11 +25,13 @@ struct Years {
 };
 
 int countingSundays(vector<int> start, vector<int> end);
-vector<Years> initialiazeList(vector<int> start, vector<int> end);
-vector<Years> setStartDayForYears(vector<Years> _yearsList);
-vector<Years> setFirstSundaysCountForYears(vector<int> start, vector<int> end);
-int getFirstSundaysCount(int year);
+vector<Years> initializeYears(vector<int> start, vector<int> end);
+vector<Years> setLeapYears(vector<Years> _yearsList);
+vector<Years> setStartDays(vector<Years> _yearsList);
+vector<Years> setFirstSundaysCounts(vector<Years> _yearsList);
+int getFirstSundaysCountForYear(int _startDay, int _leapYear);
 int checkLeapYear(int year);
 int getMaxFromList(vector<Years> list);
+void test(vector<Years> _yearsList);
 
 #endif
