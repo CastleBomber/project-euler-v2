@@ -1,4 +1,4 @@
-#include "countingSundays.h"  // 9a
+#include "countingSundays.h"
 
 /**
  * Counts the number of 1st Sundays within each year
@@ -9,31 +9,27 @@
  * @return maxSundays
  */
 int countingSundays(vector<int> start, vector<int> end) {
-    vector<Years> yearsList;
-    int maxSundays = 0;
+  vector<Years> yearsList;
+  int maxSundays = 0;
 
-    // Initialize list: year, LY value, and count of 0
-    yearsList = initializeYears(start, end);
+  // Initialize list: year, LY value, and count of 0
+  yearsList = initializeYears(start, end);
 
-    // Set the leap years for each year
-    yearsList = setLeapYears(yearsList);
+  // Set the leap years for each year
+  yearsList = setLeapYears(yearsList);
 
-    // Set the day of the week that each year starts on
-    yearsList = setStartDays(yearsList);
+  // Set the day of the week that each year starts on
+  yearsList = setStartDays(yearsList);
 
-    // Builds up list with the number of 1st Sundays in each year
-    yearsList = setFirstSundaysCounts(yearsList);
+  // Builds up list with the number of 1st Sundays in each year
+  yearsList = setFirstSundaysCounts(yearsList);
 
-    // Test
-    vector<Years> tmp1, tmp2, tmp3;
-    tmp1.emplace_back(yearsList[yearsList.size() - 1]);
-    tmp2.emplace_back(yearsList[yearsList.size() - 2]);
-    tmp3.emplace_back(yearsList[yearsList.size() - 3]);
+  // Iterate through yearsList to find the greatest count
+  maxSundays = getFirstSundaysTotal(yearsList);
 
-    // Iterate through yearsList to find the greatest count
-    // maxSundays = getMaxFromList(yearsList);
+  // test(yearsList);
 
-    return maxSundays;
+  return maxSundays;
 }
 
 /**
@@ -46,15 +42,15 @@ int countingSundays(vector<int> start, vector<int> end) {
  * @return yearsList - <year, leapYear, startDay, firstSundaysCount>
  */
 vector<Years> initializeYears(vector<int> start, vector<int> end) {
-    vector<Years> yearsList;
-    int startYear = start[2];  // Start of 20th century: 1901
-    int endYear = end[2];      // End of 20th century: 2000
+  vector<Years> yearsList;
+  int startYear = start[2]; // Start of 20th century: 1901
+  int endYear = end[2];     // End of 20th century: 2000
 
-    for (int curYear = startYear; curYear <= endYear; curYear++) {
-        yearsList.emplace_back(curYear, 0, 0, 0);
-    }
+  for (int curYear = startYear; curYear <= endYear; curYear++) {
+    yearsList.emplace_back(curYear, 0, 0, 0);
+  }
 
-    return yearsList;
+  return yearsList;
 }
 
 /**
@@ -64,20 +60,20 @@ vector<Years> initializeYears(vector<int> start, vector<int> end) {
  * @return yearsList
  */
 vector<Years> setLeapYears(vector<Years> _yearsList) {
-    vector<Years> yearsList = _yearsList;
-    int curYear = 0;
+  vector<Years> yearsList = _yearsList;
+  int curYear = 0;
 
-    for (int i = 0; i < _yearsList.size(); i++) {
-        curYear = yearsList[i].year;
+  for (int i = 0; i < _yearsList.size(); i++) {
+    curYear = yearsList[i].year;
 
-        if (checkLeapYear(curYear)) {
-            yearsList[i].leapYear = 1;
-        } else {
-            yearsList[i].leapYear = 0;
-        }
+    if (checkLeapYear(curYear)) {
+      yearsList[i].leapYear = 1;
+    } else {
+      yearsList[i].leapYear = 0;
     }
+  }
 
-    return yearsList;
+  return yearsList;
 }
 
 /**
@@ -141,23 +137,23 @@ vector<Years> setLeapYears(vector<Years> _yearsList) {
  * @return yearsList
  */
 vector<Years> setStartDays(vector<Years> _yearsList) {
-    vector<Years> yearsList = _yearsList;
-    vector<int> week = {0, 1, 2, 3, 4, 5, 6};  // Sun,M,T,W,Th,F,Sa (0-6)
-    int startYear20thCentury = 1901;           // First year in 20th century
-    int startDay20thCentury = 2;               // Tuesday, first day in 20th century
-    int diff = 0;
-    int leaps = 0;
-    int _startDay = 0;
+  vector<Years> yearsList = _yearsList;
+  vector<int> week = {0, 1, 2, 3, 4, 5, 6}; // Sun,M,T,W,Th,F,Sa (0-6)
+  int startYear20thCentury = 1901;          // First year in 20th century
+  int startDay20thCentury = 2; // Tuesday, first day in 20th century
+  int diff = 0;
+  int leaps = 0;
+  int _startDay = 0;
 
-    // Algorithm to add start days to years
-    for (int x = 0; x < _yearsList.size(); x++) {
-        diff = yearsList[x].year - startYear20thCentury;
-        leaps = diff / 4;
-        _startDay = (startDay20thCentury + diff + leaps) % 7;
-        yearsList[x].startDay = (startDay20thCentury + diff + leaps) % 7;
-    }
+  // Algorithm to add start days to years
+  for (int x = 0; x < _yearsList.size(); x++) {
+    diff = yearsList[x].year - startYear20thCentury;
+    leaps = diff / 4;
+    _startDay = (startDay20thCentury + diff + leaps) % 7;
+    yearsList[x].startDay = (startDay20thCentury + diff + leaps) % 7;
+  }
 
-    return yearsList;
+  return yearsList;
 }
 
 /**
@@ -167,65 +163,78 @@ vector<Years> setStartDays(vector<Years> _yearsList) {
  * @return yearsList - <year, leapYear, startDay, firstSundaysCount>
  */
 vector<Years> setFirstSundaysCounts(vector<Years> _yearsList) {
-    vector<Years> yearsList;
-    vector<int> daysMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    vector<int> daysMonthsLY = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int startYear = 0;
-    int endYear = 0;
-    int pos = 0;
+  vector<Years> yearsList;
+  int startYear = 0;
+  int endYear = 0;
+  int pos = 0;
+  int curYear = 0;
+  yearsList = _yearsList;
 
-    yearsList = _yearsList;
+  // Scope of the 20th century years
+  startYear = yearsList[0].year;
+  endYear = yearsList[yearsList.size() - 1].year;
 
-    // Scope of the 20th century years
-    startYear = yearsList[0].year;
-    endYear = yearsList[yearsList.size() - 1].year;
+  // Add total number of 1st Sundays to each year
+  for (curYear = startYear; curYear <= endYear; curYear++) {
+    pos = curYear - startYear;
 
-    // Add total number of 1st Sundays to each year
-    for (int cur = startYear; cur < endYear; cur++) {
-        pos = cur - startYear;
-        yearsList[pos].firstSundaysCount = getFirstSundaysCountForYear(
-            yearsList[pos].startDay, yearsList[pos].leapYear);
-    }
+    yearsList[pos].firstSundaysCount = getFirstSundaysCountForYear(
+        yearsList[pos].startDay, yearsList[pos].leapYear);
+  }
 
-    return yearsList;
+  return yearsList;
 }
 
 /**
  * Builds up list with the number of 1st Sundays for specific year
  *
- * @param _yearsList
- * @param pos - year position within the 20th century years list
+ * @param _startDay - Sun,M,T,W,Th,F,Sa (0-6)
+ * @param _daysInMonths - correct days for YR/LY
  * @return count - number of 1st Sundays in the year
  */
-int getFirstSundaysCountForYear(int _startDay, int _leapYear) {
-    int count = 0;
-    int startDay = 0;
-    int leapYear = 0;
-    int x = 0;
-    int prevStartDay = 0;
-    vector<int> daysMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    vector<int> daysMonthsLY = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+int getFirstSundaysCountForYear(int _startDayOfYear, int _leapYear) {
+  int count = 0;
+  int leapYear = 0;
+  bool isSunday = 0;
+  int startDayOfMonth = 0;
+  vector<int> daysInMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  vector<int> daysInMonthsLY = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    startDay = _startDay;
-    leapYear = _leapYear;
+  startDayOfMonth = _startDayOfYear;
+  leapYear = _leapYear;
 
-    // Set the number of days in the month for this year
-    if (leapYear) {
-        daysMonths = daysMonthsLY;
+  // If leap year, switch the days
+  if (leapYear) {
+    daysInMonths = daysInMonthsLY;
+  }
+
+  // Add up the 1st Sundays through the year
+  for (int month = 0; month < daysInMonths.size(); month++) {
+    startDayOfMonth = getStartOfMonth(startDayOfMonth, daysInMonths[month]);
+
+    if (startDayOfMonth == 0) {
+      count += 1;
     }
+  }
 
-    // Iterate through the months
-    for (int i = 0; i < daysMonths.size(); i++) {
-        // x = checkIfSunday(startDay, daysMonths[i]);
+  return count;
+}
 
-        // for () {
-        //   if () {
-        //     count++;
-        //   }
-        // }
-    }
+/**
+ *
+ * @param _startDay - Sun,M,T,W,Th,F,Sa (0-6)
+ * @return isSunday - true: Sunday, false: not Sunday
+ */
+int getStartOfMonth(int _startDay, int _daysInThisMonth) {
+  int startDayOfMonth = 0;
+  int daysInThisMonth = 0;
 
-    return count;
+  startDayOfMonth = _startDay;
+  daysInThisMonth = _daysInThisMonth;
+
+  startDayOfMonth = (startDayOfMonth + daysInThisMonth) % 7;
+
+  return startDayOfMonth;
 }
 
 /**
@@ -235,21 +244,43 @@ int getFirstSundaysCountForYear(int _startDay, int _leapYear) {
  * @return leapYear - true if leap year, false if not
  */
 int checkLeapYear(int year) {
-    int leapYear = 0;
+  int leapYear = 0;
 
-    if (((year % 4 == 0) && (year % 100 != 0)) ||
-        ((year % 100 == 0) && (year % 400 == 0))) {
-        leapYear = 1;
-    }
+  if (((year % 4 == 0) && (year % 100 != 0)) ||
+      ((year % 100 == 0) && (year % 400 == 0))) {
+    leapYear = 1;
+  }
 
-    return leapYear;
+  return leapYear;
 }
 
-int getMaxFromList(vector<Years> list) { return 1; }
+int getFirstSundaysTotal(vector<Years> _yearsList) {
+  int total = 0;
+
+  vector<Years> yearsList;
+  yearsList = _yearsList;
+
+  for (int i = 0; i < yearsList.size(); i++) {
+    total += yearsList[i].firstSundaysCount;
+  }
+
+  return total;
+}
 
 // Testing specific years at end
 void test(vector<Years> _yearsList) {
-    vector<Years> tmp;
+  vector<Years> yearsList;
 
-    tmp.emplace_back(_yearsList[_yearsList.size() - 1]);
+  yearsList = _yearsList;
+
+  // Test end of years list
+  vector<Years> tmp1, tmp2, tmp3;
+  tmp1.emplace_back(yearsList[yearsList.size() - 1]);
+  tmp2.emplace_back(yearsList[yearsList.size() - 2]);
+  tmp3.emplace_back(yearsList[yearsList.size() - 3]);
+
+  // Test front of years list
+  // tmp1.emplace_back(yearsList[0]);
+  // tmp2.emplace_back(yearsList[1]);
+  // tmp3.emplace_back(yearsList[2]);
 }

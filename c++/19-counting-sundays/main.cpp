@@ -21,7 +21,7 @@
  * (Tuesday, 1 Jan 1901 to Sunday, 31 Dec 2000)?
  *
  * Solution:
- *  (ongoing)
+ *  171 1st Sundays exist in the 20th century
  *
  * Notes:
  * Monday, January 1st, 1900 // Not LY
