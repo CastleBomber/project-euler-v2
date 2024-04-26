@@ -12,6 +12,7 @@
  *
  * Solution:
  * (Ongoing, needing to use GNU's gmplib for greater precision)
+ * (Switching to Python for NumPy and Math libraries to handle large numbers)
  *
  * Notes:
  * GNU Multiprecision Arithmetic Library
