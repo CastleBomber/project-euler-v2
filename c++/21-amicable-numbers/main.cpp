@@ -9,17 +9,22 @@
  * If d(a) = b and d(b) = a, where a != b, then a and b are an amicable pair
  * and each of a and b are called amicable numbers.
  *
- * For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44,
- * 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4,
- * 71 and 142; so d(284) = 220.
+ * For example, the proper divisors of 220 are:
+ * {1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110};
+ * so, d(220) = 284.
  *
- * Evaluate the sum of all the amicable numbers under 10000.
+ * The proper divisors of 284 are:
+ * {1, 2, 4, 71 and 142};
+ * so, d(284) = 220.
+ *
+ * Evaluate the sum of all the amicable numbers under 10,000.
  *
  * Solution:
- *     (Ongoing)
+ *     A(<10,000) = ({,}, {220, 284}, {,})
+ *     Sum(A(<1000)) = 31,626
  *
- * Sites:
- *     https://www.timeanddate.com/calendar/?year=1902&country=1
+ * Acknowledgements:
+ *     Open AI's Chat GPT
  *
  * Replit:
  *     Menu - cmd+j
@@ -29,14 +34,26 @@
  *     Breakpoints and for loops require two taps to proceed
  *
  * Notes:
+ *     amicable numbers - pairs of numbers,
+ *     where they each are the sum of all the proper divisors for given number,
+ *     (excluding iteself); d(n) = {..+..}
+ *     Perfect Numbers are not amicable numbers (unique pairs), ex: (6,6)
  *
  */
 
 #include "amicableNumbers.h"
 
 int main() {
-  cout << "Hello world" << endl;
-  amicableNumbers();
+    unordered_set<AmicablePair, AmicablePairHash> amicablePairs;
+    int start = 0;
+    int end = 10000;
+    int sumOfPairs = 0;
 
-  return 0;
+    // Find amicable pairs
+    amicablePairs = findAmicablePairs(start, end);
+
+    // Add up all the amicable pairs under the max
+    sumOfPairs = sumOfAmicablePairs(amicablePairs);
+
+    return 0;
 }
