@@ -30,6 +30,9 @@
  *     Menu - cmd+j
  *     Code folding - Toggle all folds from menu option
  *
+ * Visual Studio Code
+ *      Code folding - (cmd+a), cmd+k, cmd+0
+ *
  * Debugger:
  *     Breakpoints and for loops require two taps to proceed
  *
