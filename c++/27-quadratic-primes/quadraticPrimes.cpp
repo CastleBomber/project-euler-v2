@@ -10,7 +10,7 @@
  * b must be prime, since starting with n = 0
  * prime numbers must be positive, > 1
  *
- * @param
+ * @param limit
  * @return result
  */
 int quadraticPrimes(int limit) {

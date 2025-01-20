@@ -14,7 +14,7 @@ struct Triple {
     int numPrimes;
 };
 
-int quadraticPrimes(int numDigits);
+int quadraticPrimes(int limit);
 vector<int> sieveOfEratosthenes(int n);
 vector<int> setValues(int aMin, int aMax);
 Triple setEquation(vector<int> primes, vector<int> potentialAs);
