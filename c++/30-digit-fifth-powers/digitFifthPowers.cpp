@@ -1,9 +1,10 @@
 #include "digitFifthPowers.h"
 
 /**
+ * Sum of fifth powers of their digits
  *
- * @param
- * @return
+ * @param power
+ * @return sumVector(matchingNumbers)
  */
 int digitFifthPowers(int power) {
     int upperLimit = setUpperLimit(power);
@@ -35,7 +36,7 @@ int setUpperLimit(int power) {
     } while (largestPossibleSum > smallestNDigitNumber);
 
     // The previous largestPossibleSum before breaking the valid limit
-    int upperLimit = (n - 2) * digitMaxPower;  
+    int upperLimit = (n - 2) * digitMaxPower;
 
     return upperLimit;
 }
@@ -62,7 +63,7 @@ int sumDigitsToPower(int num, int power) {
     int sumOfDigits = 0;
 
     for (auto digit : to_string(num)) {
-        sumOfDigits += pow(digit - '0',power);  // char to int
+        sumOfDigits += pow(digit - '0', power);  // char to int
     }
 
     return sumOfDigits;
