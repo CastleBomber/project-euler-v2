@@ -32,13 +32,16 @@
  *      Breakpoints and for loops require two taps to proceed
  *
  * Notes:
+ *      Dynamic Programming
+ *      breaking the problem into smaller subproblems,
+ *      store intermediate results, avoid redundant calculations
  *
  */
 
 #include "coinSums.h"
 
 int main() {
-    int target = 200;  // 2 pounds
+    int target = 200;  // 200p = £2
     int combinations = coinSums(target);
 
     cout << "Total number of combinations to make £2: " << combinations << endl;
