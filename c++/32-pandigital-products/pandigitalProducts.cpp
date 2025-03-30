@@ -3,27 +3,27 @@
 /**
  * Finds the sum of all products whose multiplicand/multiplier/product identity
  * can be written as a 1 through 9 pandigital.
- * 
+ *
  * Equations:
  * A * B = C
- * 
+ *
  * a + b + c = 9
  *
  * Two number length formulas from multiplication:
  * (a + b = c)
  * (a + b - 1 = c)
- * 
+ *
  * Ex:
  * 99 * 999 = 98,901  => (a + b = c)  => 2,3 -> 5
- * 10 * 10 = 100  => (a + b - 1 = c)  => 2,2 -> 3 
- * 
+ * 10 * 10 = 100  => (a + b - 1 = c)  => 2,2 -> 3
+ *
  * First formula:
  * (a + b = c)
  * a + b + (c) = 9
  * a + b + (a + b) = 9
  * 2a + 2b ≠ 9
  * Invalid
- * 
+ *
  * Second formula:
  * (a + b - 1 = c)
  * a + b + (c) = 9
@@ -31,11 +31,11 @@
  * 2a + 2b = 10
  * a + b = 5
  * Valid
- * 
+ *
  * Therefore,
- * a = 2, b = 3 or 
+ * a = 2, b = 3 or
  * a = 1, b = 4
- * 
+ *
  * @return sumProducts(products) -  sum of all the products
  */
 int pandigitalProducts() {
@@ -67,8 +67,9 @@ int pandigitalProducts() {
     for (int a = min2Digits; a < max2Digits; a++) {
         for (int b = min3Digits; b < max3Digits; b++) {
             int c = a * b;
+            string concatenatedStr = to_string(a) + to_string(b) + to_string(c);
 
-            if (isPandigital(a, b, c)) {
+            if (isPandigital(concatenatedStr)) {
                 products.insert(c);
             }
         }
