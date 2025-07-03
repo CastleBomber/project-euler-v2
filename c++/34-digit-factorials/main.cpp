@@ -26,8 +26,9 @@
  *
  */
 
-#include "digitFactorials.h"
+#include "digitFactorials.h" 
 
 int main() {
+    cout << "Yo" << endl;
     return 0;
 }
