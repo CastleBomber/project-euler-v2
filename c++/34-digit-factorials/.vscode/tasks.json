@@ -8,9 +8,10 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                "${file}",
+                "main.cpp",
+                "digitFactorials.cpp",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "output"
             ],
             "options": {
                 "cwd": "${fileDirname}"

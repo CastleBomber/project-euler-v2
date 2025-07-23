@@ -3,6 +3,6 @@
 /**
  * 
  */
-int digitFactorials() {
-
+void digitFactorials() {
+    cout << "x" << endl;
 }
