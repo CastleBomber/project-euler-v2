@@ -11,7 +11,9 @@
                 "main.cpp",
                 "digitFactorials.cpp",
                 "-o",
-                "output"
+                "output",
+                "-I/opt/homebrew/opt/boost/include",
+                "-L/opt/homebrew/opt/boost/lib"
             ],
             "options": {
                 "cwd": "${fileDirname}"
