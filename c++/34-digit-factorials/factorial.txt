@@ -1,0 +1,2 @@
+(This project uses Boost's factorial function to allow for larger precision)
+(Check the root of the project for implementation details)

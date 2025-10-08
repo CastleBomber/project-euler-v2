@@ -1,0 +1,3 @@
+clang++ -std=c++17 main.cpp digitFactorials.cpp -I$(brew --prefix boost)/include -o output
+
+clang++ -std=c++17 main.cpp digitFactorials.cpp -I$(brew --prefix boost)/include -o output && ./output

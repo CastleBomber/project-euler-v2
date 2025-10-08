@@ -1,0 +1,6 @@
+Watch out for naming conflicts
+Similar functions may have different type requirements
+ex: 
+pow() 
+vs 
+boost::multiprecision::pow()

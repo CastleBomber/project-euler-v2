@@ -11,7 +11,9 @@
  * Note: As 1! = 1 and 2! = 2 are not sums, they are not included.
  *
  * Solution:
- *
+ *      nums = <145, 40585>
+ *      sum = 40,730
+ * 
  * Acknowledgements:
  *
  *
@@ -22,7 +24,7 @@
  *      Breakpoints and for loops require two taps to proceed
  *
  * Notes:
- *
+ *      Boost Multiprecision Library
  *
  */
 
