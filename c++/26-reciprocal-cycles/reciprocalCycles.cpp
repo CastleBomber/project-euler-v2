@@ -1,8 +1,8 @@
-#include "1000digitFibonacciNumber.h"
+#include "reciprocalCycles.h"
 
 /**
  *
 */
-int x(int numDigits) {
-
+void reciprocalCycles() {
+    cout << "Hello world" << endl;
 }

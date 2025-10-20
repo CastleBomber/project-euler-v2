@@ -39,19 +39,25 @@
  * Notes:
  *     GMP (GNU Multiple Precision Arithmetic Library)
  *     For full gmp usage, will need to run:
- *     sudo apt install libgmp-dev
+ *     brew install gmp (Mac)
+ *     sudo apt install libgmp-dev (Ubuntu)
+ * 
+ *     GMP vs Boost.Multiprecision
+ *     (older, faster, requires linking c libraries) vs (newer, easier to use, slower)
  */
 
 #include "reciprocalCycles.h"
 
 int main() {
-    mpf_set_default_prec(5000); // Set precision to 5000 bits (~1500 digits)
-    mpf_class a("1.1234567890123456789012345678901234567890");
-    mpf_class b("2.9876543210987654321098765432109876543210");
+    // mpf_set_default_prec(5000); // Set precision to 5000 bits (~1500 digits)
+    // mpf_class a("1.1234567890123456789012345678901234567890");
+    // mpf_class b("2.9876543210987654321098765432109876543210");
 
-    mpf_class result = a * b;
+    // mpf_class result = a * b;
     
-    cout << result << endl;
+    // cout << result << endl;
+
+    reciprocalCycles();
 
     return 0;
 }
