@@ -1,0 +1,9 @@
+// Run code 
+python3 main.py
+
+// Make it executable
+// Add a shebang and give it execute permission
+#!/usr/bin/env python3
+chmod +x optimal-solution.py
+
+./optimal-solution.py

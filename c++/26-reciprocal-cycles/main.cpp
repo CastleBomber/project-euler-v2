@@ -49,15 +49,8 @@
 #include "reciprocalCycles.h"
 
 int main() {
-    // mpf_set_default_prec(5000); // Set precision to 5000 bits (~1500 digits)
-    // mpf_class a("1.1234567890123456789012345678901234567890");
-    // mpf_class b("2.9876543210987654321098765432109876543210");
-
-    // mpf_class result = a * b;
-    
-    // cout << result << endl;
 
     reciprocalCycles();
-
+    
     return 0;
 }

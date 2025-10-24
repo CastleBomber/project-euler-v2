@@ -19,6 +19,7 @@
  *
  * Visual Studio Code
  *      Code folding - (cmd+a), cmd+k, cmd+0
+ *      Command Palette - cmd + shift + p
  *
  * Debugger:
  *      Breakpoints and for loops require two taps to proceed

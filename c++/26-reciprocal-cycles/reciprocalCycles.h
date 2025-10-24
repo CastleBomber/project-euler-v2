@@ -10,5 +10,6 @@
 using namespace std;
 
 void reciprocalCycles();
+void factorial(int n);
 
 #endif
