@@ -1,39 +1,38 @@
 #include "reciprocalCycles.h"
 
 /**
- *
+ * Find the denominator with the longest recurring cycle in its decimal fraction part
+ * 
+ * Fractions with prime denominators can have the longest recurring cycles
+ * 
+ * @param maxDenominator - The maximum denominator to check for recurring cycles
+ * @return void - Prints the denominator with the longest recurring cycle, the cycle itself, and its length
 */
 void reciprocalCycles(int maxDenominator) {
-    mpf_set_default_prec(5000); // Set precision to 5000 bits (~1500 digits)
-
     // Build a primes list
     vector<int> primes = getPrimes(maxDenominator);
-       
-    // Calculate 1/n for each prime
-    // vector<mpf_class> decimals;
-    // for (auto n : primes) {
-    //     decimals.push_back(mpf_class(1)/n);
-    // }
     
     // Find the denominator with the longest recurring cycle 
     vector<pair<int, string>> cycles;
-    int denominatorWithLongestLength = 0;
+    int longestLength = 0;
+    int denomWithLongestCycle = 0;
     for (auto prime : primes) {
         int tmpLength = recurringCycle(prime).size();
 
-        if (tmpLength > denominatorWithLongestLength) {
-            denominatorWithLongestLength = tmpLength;
+        if (tmpLength > longestLength) {
+            longestLength = tmpLength;
+            denomWithLongestCycle = prime;
         }
     }
 
-    // Output the result
-    cout << "Denominator with longest recurring cycle: " << denominatorWithLongestLength << endl;
-    cout << "Recurring cycle: " << recurringCycle(denominatorWithLongestLength) << endl;
-    cout << "Length of the cycle: " << recurringCycle(denominatorWithLongestLength).size() << endl;
+    cout << "Denominator with longest recurring cycle: " << denomWithLongestCycle << endl;
+    cout << "Length of the cycle: " << recurringCycle(longestLength).size() << endl;
+    cout << "Recurring cycle: " << recurringCycle(longestLength) << endl;
 }
 
 /**
  * Sieve of Eratosthenes to get all primes up to limit
+ * 
  * @param limit - The upper limit to find primes
  * @return primes - A vector of prime numbers up to limit
 */

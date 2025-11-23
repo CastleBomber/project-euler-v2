@@ -28,7 +28,16 @@
  *
  *
  * Acknowledgements:
- *
+ *      Denominator with longest recurring cycle: 983
+ *      Length of the cycle: 490
+ *      Recurring cycle: 0101832993890020366598778004073319755600814663951120162932790224
+ *                       0325865580448065173116089613034623217922606924643584521384928716
+ *                       9042769857433808553971486761710794297352342158859470468431771894
+ *                       0936863543788187372708757637474541751527494908350305498981670061
+ *                       0997963340122199592668024439918533604887983706720977596741344195
+ *                       5193482688391038696537678207739307535641547861507128309572301425
+ *                       6619144602851323828920570264765784114052953156822810590631364562
+ *                       118126272912423625254582484725050916496945
  *
  * Visual Studio Code
  *      Code folding - (cmd+a), cmd+k, cmd+0
@@ -37,6 +46,7 @@
  *     Breakpoints and for loops require two taps to proceed
  *
  * Notes:
+ *     **Used long divison techniques that did not rely on these libraries**
  *     GMP (GNU Multiple Precision Arithmetic Library)
  *     For full gmp usage, will need to run:
  *     brew install gmp (Mac)
