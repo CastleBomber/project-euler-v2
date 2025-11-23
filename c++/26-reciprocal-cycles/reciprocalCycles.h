@@ -4,12 +4,14 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include <gmp.h>
 #include <gmpxx.h>
 
 using namespace std;
 
-void reciprocalCycles();
-void factorial(int n);
+void reciprocalCycles(int maxDenominator=1000);
+vector<int> getPrimes(int limit);
+string recurringCycle(int n);
 
 #endif

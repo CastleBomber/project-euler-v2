@@ -3,45 +3,92 @@
 /**
  *
 */
-void reciprocalCycles() {
+void reciprocalCycles(int maxDenominator) {
     mpf_set_default_prec(5000); // Set precision to 5000 bits (~1500 digits)
-    mpf_class a("1.1234567890123456789012345678901234567890");
-    mpf_class b("2.9876543210987654321098765432109876543210");
 
-    mpf_class result = a * b;
+    // Build a primes list
+    vector<int> primes = getPrimes(maxDenominator);
+       
+    // Calculate 1/n for each prime
+    // vector<mpf_class> decimals;
+    // for (auto n : primes) {
+    //     decimals.push_back(mpf_class(1)/n);
+    // }
     
-    cout << result << endl;
+    // Find the denominator with the longest recurring cycle 
+    vector<pair<int, string>> cycles;
+    int denominatorWithLongestLength = 0;
+    for (auto prime : primes) {
+        int tmpLength = recurringCycle(prime).size();
 
-    gmp_printf("%.9Ff\n", result.get_mpf_t());
+        if (tmpLength > denominatorWithLongestLength) {
+            denominatorWithLongestLength = tmpLength;
+        }
+    }
 
-    // Build a factorials list
-    factorial(1000);
-    
-    // For loop from 1 to 1000
-    // Calculate 1/n
-    // Store decimal representation in a string
-    // Find the recurring cycle 
-    // Keep track of the longest cycle and its corresponding n
     // Output the result
+    cout << "Denominator with longest recurring cycle: " << denominatorWithLongestLength << endl;
+    cout << "Recurring cycle: " << recurringCycle(denominatorWithLongestLength) << endl;
+    cout << "Length of the cycle: " << recurringCycle(denominatorWithLongestLength).size() << endl;
 }
 
 /**
- * Factorial function that handles large numbers
- * Uses Boost's cpp_int
+ * Sieve of Eratosthenes to get all primes up to limit
+ * @param limit - The upper limit to find primes
+ * @return primes - A vector of prime numbers up to limit
+*/
+vector<int> getPrimes(int limit) {
+    vector<bool> isPrime(limit + 1, true);
+    isPrime[0] = isPrime[1] = false;
+
+    for (int i = 2; i <= sqrt(limit); ++i) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= limit; j += i)
+                isPrime[j] = false;
+        }
+    }
+
+    vector<int> primes;
+    for (int i = 2; i <= limit; ++i)
+        if (isPrime[i])
+            primes.push_back(i);
+
+    return primes;
+}
+
+/**
+ * Find the recurring cycle in the decimal representation of 1/n
  * 
- * @param n - number
- * @return result - factorial of n
- */
-void factorial(int n) {
-    vector<mpz_class> factorials(1001);
-    factorials[0] = 1;  // 0! = 1
+ * Once a remainder repeats, the recurring cycle is found
+ * 
+ * @param n - The denominator to find the recurring cycle for 1/n
+ * @return cycle - The recurring cycle in the decimal representation of 1/n
+*/
+string recurringCycle(int n) {
+    unordered_map<int, int> seenRemainders;  // stores the computed remainders and their positions
+    vector<int> digits;
+    int remainder = 1 % n;
+    int pos = 0;
 
-    for (int i = 1; i <= 1000; ++i){
-        factorials[i] = factorials[i - 1] * i;
+    while (remainder != 0 && !seenRemainders.count(remainder)) {
+        seenRemainders[remainder] = pos;
+
+        remainder *= 10;
+        int digit = remainder / n;
+        digits.push_back(digit);
+
+        remainder = remainder % n;
+        pos++;
     }
 
-    // Prints first 10 and 1000!
-    for (int i = 1; i <= 10; ++i) {
-        cout << i << "! = " << factorials[i] << endl;
-    }
+    if (remainder == 0) return "";  // terminates, no cycle
+
+    // Find where the cycle starts in the digits
+    int start = seenRemainders[remainder];
+    string cycle;
+    for (int i = start; i < digits.size(); i++) {
+        cycle += char('0' + digits[i]); // convert the int to a char, so we can add it to the cycle string
+    }   
+
+    return cycle;
 }

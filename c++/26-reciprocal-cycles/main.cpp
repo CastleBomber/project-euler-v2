@@ -49,8 +49,7 @@
 #include "reciprocalCycles.h"
 
 int main() {
-
-    reciprocalCycles();
-    
+    int maxDenominator = 1000;
+    reciprocalCycles(maxDenominator);
     return 0;
 }

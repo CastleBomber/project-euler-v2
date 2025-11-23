@@ -1,3 +1,11 @@
-clang++ -std=c++17 main.cpp digitFactorials.cpp -I$(brew --prefix boost)/include -o output
+# Build and run
+clang++ -std=c++17 main.cpp reciprocalCycles.cpp \
+-I$(brew --prefix boost)/include \
+-I$(brew --prefix gmp)/include \
+-L$(brew --prefix boost)/lib \
+-L$(brew --prefix gmp)/lib \
+-lgmp -lgmpxx \
+-o output && ./output
 
-clang++ -std=c++17 main.cpp digitFactorials.cpp -I$(brew --prefix boost)/include -o output && ./output
+
+
