@@ -1,3 +1,5 @@
+# Boost (convinence vs GMP's speed)
+
 ### Iterative (faster) vs recursive methods ###
 For solving for a specific value
 
@@ -17,6 +19,15 @@ int main() {
     std::cout << "50! = " << factorial(50) << std::endl;
     return 0;
 }
+
+
+
+
+
+
+
+
+
 
 
 ### Recursive (academic way)
