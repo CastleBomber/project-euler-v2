@@ -2,7 +2,10 @@ launch.json vs tasks.json
 preLaunchTask names must match with label
 specified each file (main.cpp, helloWorld.cpp, helloWorld.h) in the args[]. 
 
-make sure you are in the appropraite root folder.
+
+Active file!
+make sure you have the script that you are debugging active and open
+Root folder should be open (helps with finding the right task).
 .
 ├── .vscode
 │   ├── launch.json
@@ -14,3 +17,13 @@ make sure you are in the appropraite root folder.
 
 make sure you have the library:
 #include <iostream>
+
+
+Debugger options!
+Will be shown ~3 different options
+Choose the one resembling:
+"command": "/usr/bin/clang++",
+
+
+Last good example
+LeetCode #10
